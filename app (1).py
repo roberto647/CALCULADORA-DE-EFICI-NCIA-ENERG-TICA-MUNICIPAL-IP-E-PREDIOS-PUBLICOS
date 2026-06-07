@@ -79,7 +79,7 @@ st.info(f"💡 Para atingir a eficiência, o gasto total deveria ser de no máxi
 # --- AVISO EM VERMELHO (NOVO) ---
 st.markdown("---")
 st.markdown(
-    ":red[**ATENÇÃO**, para munícipios super populosos e/ou com muitas construções verticais, recomendamos cautela.Partir imediatamente para próximos passos contatando a VITÁLIS para estudos mais detalhados, pois a métrica leva em consideração, o parque de iluminação,area em km² do municipio,consumo em R$ e número de habitantes.]"
+    ":red[**ATENÇÃO**, para munícipios super populosos e/ou com muitas construções verticais, recomendamos cautela.Partir imediatamente para próximos passos,contatando a VITÁLIS para estudos mais detalhados, pois a métrica leva em consideração, o parque de iluminação,area em km² do municipio,consumo em R$ e número de habitantes.]"
 )
 
 # --- SEÇÃO DE CONTATO PROFISSIONAL ---
