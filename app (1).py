@@ -6,7 +6,7 @@ st.set_page_config(page_title="Calculadora Vitalis Energia", page_icon="⚡")
 
 # --- EXIBIÇÃO DO LOGO ---
 # Verifica se o arquivo do logo existe no repositório antes de tentar exibir
-logo_path = "logo-vitalis-(5).jpg"
+logo_path = "logo vitalis (5).jpg"
 if os.path.exists(logo_path):
     st.image(logo_path, width=200)
 
