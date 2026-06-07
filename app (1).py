@@ -5,10 +5,12 @@ import os
 st.set_page_config(page_title="Calculadora Vitális Energia", page_icon="⚡")
 
 # --- EXIBIÇÃO DO LOGO ---
-# Verifica se o arquivo do logo existe no repositório antes de tentar exibir
-logo_path = "logo vitalis (5).jpg"
+# Lembre-se de manter o nome do arquivo como "logo.jpg" no GitHub para evitar erros
+logo_path = "logo.jpg"
 if os.path.exists(logo_path):
-    st.image(logo_path, width=200)
+    col_l1, col_l2, col_l3 = st.columns([1, 2, 1])
+    with col_l2:
+        st.image(logo_path, width=200)
 
 st.title("Diagnóstico de Eficiência Energética para IP e PRÉDIOS PÚBLICOS")
 st.markdown("---")
@@ -17,7 +19,6 @@ st.markdown("---")
 st.sidebar.header("Parâmetros do Município")
 populacao = st.sidebar.number_input("Número de habitantes:", min_value=1, value=154000)
 gasto_total = st.sidebar.number_input("Gasto total mensal (R$):", min_value=0.0, value=656000.0)
-
 regiao_nome = st.sidebar.selectbox(
     "Escolha a região:",
     ["Norte / Nordeste", "Sudeste / Centro-Oeste", "Sul"]
@@ -74,6 +75,12 @@ else:
     st.success("✅ O município está operando dentro da meta de eficiência!")
 
 st.info(f"💡 Para atingir a eficiência, o gasto total deveria ser de no máximo **R$ {(benchmark_ideal * populacao):,.2f}**")
+
+# --- AVISO EM VERMELHO (NOVO) ---
+st.markdown("---")
+st.markdown(
+    ":red[**ATENÇÃO**, para munícipios super populosos, recomendamos cautela e partir imediatamente para próximos contatando a VITÁLIS, pois a métrica leva em consideração consumo em R$, numero de habitantes e porte do município.]"
+)
 
 # --- SEÇÃO DE CONTATO PROFISSIONAL ---
 st.markdown("---")
