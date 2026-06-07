@@ -10,7 +10,7 @@ logo_path = "logo vitalis (5).jpg"
 if os.path.exists(logo_path):
     st.image(logo_path, width=200)
 
-st.title("Diagnóstico de Eficiência Energética Municipal IP e PRÉDIOS PÚBLICOS")
+st.title("Diagnóstico de Eficiência Energética para IP e PRÉDIOS PÚBLICOS")
 st.markdown("---")
 
 # --- ENTRADAS DE DADOS (Barra Lateral) ---
