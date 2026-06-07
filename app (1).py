@@ -1,50 +1,80 @@
 import streamlit as st
 
-st.set_page_config(page_title="Calculadora de Eficiência Energética", layout="wide")
+# Configuração visual do App
+st.set_page_config(page_title="Calculadora de Eficiência Energética", page_icon="⚡")
 
-st.title("📊 Calculadora de Eficiência Energética Municipal")
+st.title("⚡ Calculadora de Eficiência Energética Municipal")
+st.markdown("---")
 
-# Sidebar inputs
-st.sidebar.header("Configurações do Município")
-populacao = st.sidebar.number_input("Número de habitantes", min_value=1, value=10000)
-gasto_total = st.sidebar.number_input("Gasto total mensal (R$)", min_value=0.0, value=50000.0)
-regiao = st.sidebar.selectbox("Região", ["Norte/Nordeste", "Sudeste/Centro-Oeste", "Sul"])
+# --- ENTRADAS DE DADOS ---
+st.sidebar.header("Parâmetros do Município")
+populacao = st.sidebar.number_input("Número de habitantes:", min_value=1, value=154000)
+gasto_total = st.sidebar.number_input("Gasto total mensal (R$):", min_value=0.0, value=656000.0)
 
-# Logic for size
+regiao_nome = st.sidebar.selectbox(
+    "Escolha a região:",
+    ["Norte / Nordeste", "Sudeste / Centro-Oeste", "Sul"]
+)
+
+# Mapeamento para a lógica
+regiao_map = {"Norte / Nordeste": 1, "Sudeste / Centro-Oeste": 2, "Sul": 3}
+regiao_opcao = regiao_map[regiao_nome]
+
+# --- LÓGICA DE CÁLCULO ---
 if populacao < 50000:
-    porte = "P"
+    porte = "Pequeno"
 elif populacao <= 500000:
-    porte = "M"
+    porte = "Médio"
 else:
-    porte = "G"
+    porte = "Grande"
 
-# Benchmarks (R$/hab)
 benchmarks = {
-    "Norte/Nordeste": {"P": 4.05, "M": 4.95, "G": 6.30},
-    "Sudeste/Centro-Oeste": {"P": 3.60, "M": 4.40, "G": 5.60},
-    "Sul": {"P": 3.24, "M": 3.96, "G": 5.04}
+    1: {"Pequeno": 4.05, "Médio": 4.95, "Grande": 6.30},
+    2: {"Pequeno": 3.60, "Médio": 4.40, "Grande": 5.60},
+    3: {"Pequeno": 3.24, "Médio": 3.96, "Grande": 5.04}
 }
 
-# Calculations
-valor_benchmark = benchmarks[regiao][porte]
+benchmark_ideal = benchmarks[regiao_opcao][porte]
+media_nacional = benchmark_ideal * 1.40
 gasto_por_hab = gasto_total / populacao
-ideal_total = valor_benchmark * populacao
-prejuizo = max(0.0, gasto_total - ideal_total)
+prejuizo = max(0, gasto_total - (benchmark_ideal * populacao))
 
-# Metrics display
-col1, col2, col3 = st.columns(3)
-col1.metric("Gasto por Hab.", f"R$ {gasto_por_hab:.2f}")
-col2.metric("Benchmark Ideal", f"R$ {valor_benchmark:.2f}/hab")
-col3.metric("Prejuízo Mensal", f"R$ {prejuizo:,.2f}")
-
-# Diagnosis
-st.subheader("Diagnóstico")
-if gasto_por_hab <= valor_benchmark:
-    st.success("✅ Município Eficiente: O gasto está dentro ou abaixo da meta ideal.")
-elif gasto_por_hab <= (valor_benchmark * 1.4):
-    st.warning("⚠️ Alerta: O gasto está acima do ideal, mas dentro da margem de tolerância.")
+if gasto_por_hab <= benchmark_ideal:
+    diagnostico = "Eficiente"
+    cor = "green"
+elif gasto_por_hab <= media_nacional:
+    diagnostico = "Alerta"
+    cor = "orange"
 else:
-    st.error("❌ Ineficiente: O gasto está significativamente acima do benchmark regional.")
+    diagnostico = "Ineficiente"
+    cor = "red"
 
-st.divider()
-st.info(f"💡 Dica: Para atingir a eficiência máxima, o gasto total do seu município não deve exceder R$ {ideal_total:,.2f} mensais.")
+# --- EXIBIÇÃO DOS RESULTADOS ---
+st.subheader(f"Diagnóstico: :{cor}[{diagnostico}]")
+
+col1, col2 = st.columns(2)
+with col1:
+    st.metric("Porte do Município", porte)
+    st.metric("Gasto Real por Hab.", f"R$ {gasto_por_hab:.2f}")
+
+with col2:
+    st.metric("Benchmark Ideal", f"R$ {benchmark_ideal:.2f}")
+    st.metric("Desvio do Ideal", f"{((gasto_por_hab/benchmark_ideal)-1)*100:+.2f}%")
+
+if prejuizo > 0:
+    st.error(f"💸 **Prejuízo financeiro mensal estimado:** R$ {prejuizo:,.2f}")
+else:
+    st.success("✅ O município está operando dentro da meta de eficiência!")
+
+st.info(f"💡 Para atingir a eficiência, o gasto total deveria ser de no máximo **R$ {(benchmark_ideal * populacao):,.2f}**")
+
+# --- NOVA SEÇÃO DE CONTATO ---
+st.markdown("---")
+st.markdown(
+    """
+    ### 📞 Próximos Passos
+    Para saber como melhorar a gestão de energia do seu município, entre em contato através do:
+    *   **WhatsApp:** [19-997970002](https://wa.me/5519997970002)
+    *   **E-mail:** [comercial@vitalisenergia.com](mailto:comercial@vitalisenergia.com)
+    """
+)
