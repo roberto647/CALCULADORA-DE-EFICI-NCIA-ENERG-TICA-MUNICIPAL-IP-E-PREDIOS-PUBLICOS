@@ -1,12 +1,19 @@
 import streamlit as st
+import os
 
 # Configuração visual do App
-st.set_page_config(page_title="Calculadora de Eficiência Energética", page_icon="⚡")
+st.set_page_config(page_title="Calculadora Vitalis Energia", page_icon="⚡")
 
-st.title("⚡ Calculadora de Eficiência Energética Municipal")
+# --- EXIBIÇÃO DO LOGO ---
+# Verifica se o arquivo do logo existe no repositório antes de tentar exibir
+logo_path = "logo-vitalis-(5).jpg"
+if os.path.exists(logo_path):
+    st.image(logo_path, width=200)
+
+st.title("⚡ Diagnóstico de Eficiência Energética Municipal")
 st.markdown("---")
 
-# --- ENTRADAS DE DADOS ---
+# --- ENTRADAS DE DADOS (Barra Lateral) ---
 st.sidebar.header("Parâmetros do Município")
 populacao = st.sidebar.number_input("Número de habitantes:", min_value=1, value=154000)
 gasto_total = st.sidebar.number_input("Gasto total mensal (R$):", min_value=0.0, value=656000.0)
@@ -16,7 +23,7 @@ regiao_nome = st.sidebar.selectbox(
     ["Norte / Nordeste", "Sudeste / Centro-Oeste", "Sul"]
 )
 
-# Mapeamento para a lógica
+# Mapeamento para a lógica original
 regiao_map = {"Norte / Nordeste": 1, "Sudeste / Centro-Oeste": 2, "Sul": 3}
 regiao_opcao = regiao_map[regiao_nome]
 
@@ -68,12 +75,12 @@ else:
 
 st.info(f"💡 Para atingir a eficiência, o gasto total deveria ser de no máximo **R$ {(benchmark_ideal * populacao):,.2f}**")
 
-# --- NOVA SEÇÃO DE CONTATO ---
+# --- SEÇÃO DE CONTATO PROFISSIONAL ---
 st.markdown("---")
 st.markdown(
     """
     ### 📞 Próximos Passos
-    Para saber como melhorar a gestão de energia do seu município, entre em contato através do:
+    Para saber como melhorar a gestão de energia do seu município, entre em contato com a **Vitalis Energia**:
     *   **WhatsApp:** [19-997970002](https://wa.me/5519997970002)
     *   **E-mail:** [comercial@vitalisenergia.com](mailto:comercial@vitalisenergia.com)
     """
