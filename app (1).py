@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 # Configuração visual do App
-st.set_page_config(page_title="Calculadora Vitalis Energia", page_icon="⚡")
+st.set_page_config(page_title="Calculadora Vitális Energia", page_icon="⚡")
 
 # --- EXIBIÇÃO DO LOGO ---
 # Verifica se o arquivo do logo existe no repositório antes de tentar exibir
@@ -10,7 +10,7 @@ logo_path = "logo vitalis (5).jpg"
 if os.path.exists(logo_path):
     st.image(logo_path, width=200)
 
-st.title("⚡ Diagnóstico de Eficiência Energética Municipal")
+st.title("Diagnóstico de Eficiência Energética Municipal IP e PRÉDIOS PÚBLICOS")
 st.markdown("---")
 
 # --- ENTRADAS DE DADOS (Barra Lateral) ---
